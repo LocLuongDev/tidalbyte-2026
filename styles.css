@@ -1,0 +1,43 @@
+﻿:root{color-scheme:light;--ink:#152739;--muted:#526474;--line:#dce5ed;--blue:#2149bb;--pale:#eff4ff;font:16px/1.5 system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:var(--ink)}header{background:#fff;border-bottom:1px solid var(--line)}.shell{max-width:1216px;margin:auto;padding-inline:clamp(16px,4vw,56px)}.brand{height:68px;display:flex;align-items:center;gap:12px;font-weight:750;font-size:1.18rem}.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue);color:white}.tag,.eyebrow{font-size:.78rem;letter-spacing:.14em;font-weight:750;color:var(--blue)}.tag{margin-left:auto}.intro{padding:38px 0 30px}.intro p{margin:0;color:var(--muted)}.intro .eyebrow{color:var(--blue)}h1{font-size:clamp(2.8rem,7vw,5.1rem);line-height:.98;letter-spacing:-.075em;margin:10px 0 16px}h2{font-size:1.22rem;margin:0 0 16px;letter-spacing:-.02em}.workspace{display:grid;grid-template-columns:minmax(280px,365px) minmax(0,1fr);gap:20px;padding-bottom:40px}aside,.results{display:grid;gap:18px;align-content:start}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.section-head h2{margin:0}label,legend{font-weight:650;font-size:.9rem;display:block}.hint{color:var(--muted);font-size:.875rem;font-weight:400}input,select,textarea,button{font:inherit}input:not([type=checkbox]),select,textarea{display:block;width:100%;min-width:0;border:1px solid #bdcad7;border-radius:8px;padding:8px;margin-top:4px;background:#fff;color:inherit}textarea{resize:vertical}form{display:grid;gap:12px}.file-label{padding:10px;background:var(--pale);border-radius:8px}.file-label input{font-size:.82rem}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}button{border-radius:8px;padding:8px 12px;font-weight:650;cursor:pointer}.primary{background:var(--blue);color:#fff;border:1px solid var(--blue)}.secondary{background:#fff;color:var(--blue);border:1px solid var(--line);font-size:.875rem}.notice{margin:0;color:var(--blue);font-size:.875rem}.notice:empty{display:none}#import-status:not(:empty){margin-top:10px}fieldset{margin:0;padding:0;border:0}.days{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.days label{display:flex;align-items:center;gap:4px}.row{border-top:1px solid var(--line);padding:12px 0;overflow-wrap:anywhere}.row:last-child{padding-bottom:0}.row p{margin:3px 0}.row-head{display:flex;justify-content:space-between;align-items:start;gap:8px}.meta{color:var(--muted);font-size:.88rem}.empty{background:#f6f8fc;color:var(--muted);padding:16px;border-radius:10px;margin:0}.session-time{font-weight:700;color:var(--blue)} details summary{cursor:pointer;color:var(--blue);font-size:.875rem}details form{margin-top:8px}@media(max-width:720px){.workspace{grid-template-columns:1fr}.intro{padding-top:28px}}
+.attachments{margin:4px 0 8px;padding-left:20px;font-size:.9rem}.attachments a{color:var(--blue);text-underline-offset:2px}
+.study-guide{margin-top:10px;padding:10px 12px;background:var(--pale);border-radius:8px}.study-guide>label,.study-guide>button,.study-guide fieldset{margin-top:10px}.quiz-choices{display:flex;flex-wrap:wrap;gap:8px}.quiz-choices button:disabled{cursor:default;opacity:.72}
+
+.subtle-rule{border:0;border-top:1px solid var(--line);margin:18px 0}
+
+.coursework-actions{display:flex;flex-wrap:wrap;gap:8px}.danger{color:#a32727;border-color:#e6b9b9}.danger:hover{background:#fff2f2}
+
+.sidebar-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.workspace.sidebar-collapsed{grid-template-columns:minmax(0,1fr)}
+.workspace.sidebar-collapsed #settings-sidebar{display:none}
+.grade-weight-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;margin-bottom:8px}
+.grade-weight-row button{margin-bottom:1px}
+.align-end{align-self:end}
+@media(max-width:720px){.workspace.sidebar-collapsed{grid-template-columns:1fr}}
+
+/* Monthly calendar: all courses or one course at a time */
+.calendar-heading{flex-wrap:wrap}.calendar-filter{display:flex;align-items:center;gap:8px;font-weight:600}.calendar-filter select{width:auto;max-width:240px;margin:0}
+.calendar-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 16px}.calendar-controls strong{min-width:155px;text-align:center}.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.calendar-weekdays span{text-align:center;font-size:.78rem;font-weight:700;color:var(--muted);padding:7px 0}.calendar-day{min-height:98px;border:1px solid var(--line);padding:5px;min-width:0;background:#fff}.calendar-empty{background:#f6f8fc}.calendar-date{font-size:.78rem;font-weight:700;color:var(--muted)}.calendar-current{background:#eff4ff;outline:2px solid var(--blue);outline-offset:-2px}.calendar-event{display:block;width:100%;text-align:left;font-size:.73rem;font-weight:600;margin:5px 0 0;padding:4px 5px;overflow-wrap:anywhere;line-height:1.25;border:0;background:#e9f0ff;color:#163a91}.calendar-exam{background:#fff0d6;color:#7d4a00}.calendar-event:hover,.calendar-event:focus-visible{outline:2px solid var(--blue)}.calendar-target{background:#fff6df;transition:background .2s}
+@media(max-width:760px){.calendar-day{min-height:68px;padding:3px}.calendar-event{font-size:.64rem;padding:3px}.calendar-filter select{max-width:150px}.calendar-controls{gap:6px}.calendar-controls strong{min-width:115px;font-size:.9rem}}
+
+/* Main content views stay beside the settings sidebar, not inside it. */
+.workspace-tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-top:-4px}
+.workspace-tab{border:0;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;background:transparent;color:var(--muted);padding:10px 18px;font-weight:700}
+.workspace-tab:hover{background:#edf2fa;color:var(--ink)}
+.workspace-tab.active{border-bottom-color:var(--blue);background:#fff;color:var(--blue)}
+.workspace-tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.tab-panel{display:grid;gap:18px;align-content:start}
+.tab-panel[hidden]{display:none!important}
+.calendar-import-card .file-label{display:block;margin:12px 0}
+
+.course-visibility-list{display:flex;flex-wrap:wrap;gap:9px}.course-visibility-item{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;background:#f8faff}.course-visibility-item input{accent-color:var(--blue)}.course-visibility-item small{font-weight:400}.course-visibility .section-head{flex-wrap:wrap}
+
+/* Independently collapsible sidebar settings */
+.settings-panel>details>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;cursor:pointer;color:var(--ink)}
+.settings-panel>details>summary::-webkit-details-marker{display:none}
+.settings-panel>details>summary h2{margin:0}
+.settings-panel>details>summary .panel-chevron{font-size:1.4rem;color:var(--blue);transition:transform .15s ease;transform:rotate(-90deg)}
+.settings-panel>details[open]>summary .panel-chevron{transform:rotate(0deg)}
+.settings-panel-content{padding-top:16px}
+.settings-panel>details>summary:focus-visible{outline:2px solid var(--blue);outline-offset:5px;border-radius:4px}
+.calendar-study{background:#e6f6ef;color:#176343}.calendar-study:hover,.calendar-study:focus-visible{outline:2px solid #23845e}

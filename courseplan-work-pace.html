@@ -1,0 +1,1426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Courseplan | Study planner</title>
+<style>:root{color-scheme:light;--ink:#152739;--muted:#526474;--line:#dce5ed;--blue:#2149bb;--pale:#eff4ff;font:16px/1.5 system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:var(--ink)}header{background:#fff;border-bottom:1px solid var(--line)}.shell{max-width:1216px;margin:auto;padding-inline:clamp(16px,4vw,56px)}.brand{height:68px;display:flex;align-items:center;gap:12px;font-weight:750;font-size:1.18rem}.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue);color:white}.tag,.eyebrow{font-size:.78rem;letter-spacing:.14em;font-weight:750;color:var(--blue)}.tag{margin-left:auto}.intro{padding:38px 0 30px}.intro p{margin:0;color:var(--muted)}.intro .eyebrow{color:var(--blue)}h1{font-size:clamp(2.8rem,7vw,5.1rem);line-height:.98;letter-spacing:-.075em;margin:10px 0 16px}h2{font-size:1.22rem;margin:0 0 16px;letter-spacing:-.02em}.workspace{display:grid;grid-template-columns:minmax(280px,365px) minmax(0,1fr);gap:20px;padding-bottom:40px}aside,.results{display:grid;gap:18px;align-content:start}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.section-head h2{margin:0}label,legend{font-weight:650;font-size:.9rem;display:block}.hint{color:var(--muted);font-size:.875rem;font-weight:400}input,select,textarea,button{font:inherit}input:not([type=checkbox]),select,textarea{display:block;width:100%;min-width:0;border:1px solid #bdcad7;border-radius:8px;padding:8px;margin-top:4px;background:#fff;color:inherit}textarea{resize:vertical}form{display:grid;gap:12px}.file-label{padding:10px;background:var(--pale);border-radius:8px}.file-label input{font-size:.82rem}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}button{border-radius:8px;padding:8px 12px;font-weight:650;cursor:pointer}.primary{background:var(--blue);color:#fff;border:1px solid var(--blue)}.secondary{background:#fff;color:var(--blue);border:1px solid var(--line);font-size:.875rem}.notice{margin:0;color:var(--blue);font-size:.875rem}.notice:empty{display:none}#import-status:not(:empty){margin-top:10px}fieldset{margin:0;padding:0;border:0}.days{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.days label{display:flex;align-items:center;gap:4px}.row{border-top:1px solid var(--line);padding:12px 0;overflow-wrap:anywhere}.row:last-child{padding-bottom:0}.row p{margin:3px 0}.row-head{display:flex;justify-content:space-between;align-items:start;gap:8px}.meta{color:var(--muted);font-size:.88rem}.empty{background:#f6f8fc;color:var(--muted);padding:16px;border-radius:10px;margin:0}.session-time{font-weight:700;color:var(--blue)} details summary{cursor:pointer;color:var(--blue);font-size:.875rem}details form{margin-top:8px}@media(max-width:720px){.workspace{grid-template-columns:1fr}.intro{padding-top:28px}}
+.attachments{margin:4px 0 8px;padding-left:20px;font-size:.9rem}.attachments a{color:var(--blue);text-underline-offset:2px}
+.study-guide{margin-top:10px;padding:10px 12px;background:var(--pale);border-radius:8px}.study-guide>label,.study-guide>button,.study-guide fieldset{margin-top:10px}.quiz-choices{display:flex;flex-wrap:wrap;gap:8px}.quiz-choices button:disabled{cursor:default;opacity:.72}
+
+.subtle-rule{border:0;border-top:1px solid var(--line);margin:18px 0}
+
+.coursework-actions{display:flex;flex-wrap:wrap;gap:8px}.danger{color:#a32727;border-color:#e6b9b9}.danger:hover{background:#fff2f2}
+
+.sidebar-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.workspace.sidebar-collapsed{grid-template-columns:minmax(0,1fr)}
+.workspace.sidebar-collapsed #settings-sidebar{display:none}
+.grade-weight-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;margin-bottom:8px}
+.grade-weight-row button{margin-bottom:1px}
+.align-end{align-self:end}
+@media(max-width:720px){.workspace.sidebar-collapsed{grid-template-columns:1fr}}
+
+/* Monthly calendar: all courses or one course at a time */
+.calendar-heading{flex-wrap:wrap}.calendar-filter{display:flex;align-items:center;gap:8px;font-weight:600}.calendar-filter select{width:auto;max-width:240px;margin:0}
+.calendar-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 16px}.calendar-controls strong{min-width:155px;text-align:center}.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.calendar-weekdays span{text-align:center;font-size:.78rem;font-weight:700;color:var(--muted);padding:7px 0}.calendar-day{min-height:98px;border:1px solid var(--line);padding:5px;min-width:0;background:#fff}.calendar-empty{background:#f6f8fc}.calendar-date{font-size:.78rem;font-weight:700;color:var(--muted)}.calendar-current{background:#eff4ff;outline:2px solid var(--blue);outline-offset:-2px}.calendar-event{display:block;width:100%;text-align:left;font-size:.73rem;font-weight:600;margin:5px 0 0;padding:4px 5px;overflow-wrap:anywhere;line-height:1.25;border:0;background:#e9f0ff;color:#163a91}.calendar-exam{background:#fff0d6;color:#7d4a00}.calendar-event:hover,.calendar-event:focus-visible{outline:2px solid var(--blue)}.calendar-target{background:#fff6df;transition:background .2s}
+@media(max-width:760px){.calendar-day{min-height:68px;padding:3px}.calendar-event{font-size:.64rem;padding:3px}.calendar-filter select{max-width:150px}.calendar-controls{gap:6px}.calendar-controls strong{min-width:115px;font-size:.9rem}}
+
+/* Main content views stay beside the settings sidebar, not inside it. */
+.workspace-tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-top:-4px}
+.workspace-tab{border:0;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;background:transparent;color:var(--muted);padding:10px 18px;font-weight:700}
+.workspace-tab:hover{background:#edf2fa;color:var(--ink)}
+.workspace-tab.active{border-bottom-color:var(--blue);background:#fff;color:var(--blue)}
+.workspace-tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.tab-panel{display:grid;gap:18px;align-content:start}
+.tab-panel[hidden]{display:none!important}
+.calendar-import-card .file-label{display:block;margin:12px 0}
+
+.course-visibility-list{display:flex;flex-wrap:wrap;gap:9px}.course-visibility-item{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;background:#f8faff}.course-visibility-item input{accent-color:var(--blue)}.course-visibility-item small{font-weight:400}.course-visibility .section-head{flex-wrap:wrap}
+
+/* Independently collapsible sidebar settings */
+.settings-panel>details>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;cursor:pointer;color:var(--ink)}
+.settings-panel>details>summary::-webkit-details-marker{display:none}
+.settings-panel>details>summary h2{margin:0}
+.settings-panel>details>summary .panel-chevron{font-size:1.4rem;color:var(--blue);transition:transform .15s ease;transform:rotate(-90deg)}
+.settings-panel>details[open]>summary .panel-chevron{transform:rotate(0deg)}
+.settings-panel-content{padding-top:16px}
+.settings-panel>details>summary:focus-visible{outline:2px solid var(--blue);outline-offset:5px;border-radius:4px}
+.calendar-study{background:#e6f6ef;color:#176343}.calendar-study:hover,.calendar-study:focus-visible{outline:2px solid #23845e}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.9.1/mammoth.browser.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+
+
+</head>
+<body>
+<header><div class="shell brand"><span class="logo" aria-hidden="true">▤</span> Courseplan <span class="tag">STUDY PLANNER</span></div></header>
+<main class="shell">
+<section class="intro"><p class="eyebrow">YOUR WORKSPACE</p><h1>Make time for<br>what’s due.</h1><p>Bring in your coursework and turn deadlines into a study plan.</p></section>
+<div class="sidebar-toolbar"><button id="toggle-sidebar" type="button" class="secondary" aria-expanded="true" aria-controls="settings-sidebar">☰ Hide settings</button><span class="hint">Collapse settings for more room to view your coursework.</span></div>
+<div class="workspace" id="workspace">
+<aside id="settings-sidebar">
+<section class="card settings-panel"><details open><summary><h2>Add coursework</h2><span class="panel-chevron" aria-hidden="true">⌄</span></summary><div class="settings-panel-content">
+<p class="hint">Or paste an assignment or exam description below.</p>
+<form id="task-form">
+<label>Title<input name="title" required placeholder="e.g. Limits problem set"></label>
+<div class="pair"><label>Type<select name="type"><option value="assignment">Assignment</option><option value="exam">Exam</option></select></label><label>Due date<input name="due" type="date" required></label></div>
+<label>Course name (for grade weights)<input name="course" placeholder="e.g. CHEM 119"></label>
+<label>Instructions or study guide<textarea name="details" rows="3" placeholder="Paste Canvas instructions or notes"></textarea></label>
+<label>Grade category<select name="gradeCategory"><option value="auto">Auto-detect</option><option value="homework">Homework</option><option value="quiz">Quizzes</option><option value="exam">Exams / tests (general)</option><option value="final">Final exam</option><option value="discussion">Discussions</option><option value="lab">Labs</option><option value="project">Projects</option><option value="participation">Participation</option><option value="other">Other</option></select></label><label>Topics <span class="hint">(optional)</span><input name="topics" placeholder="e.g. limits, continuity"></label>
+<label>Homework file to analyze <span class="hint">(optional · PDF, DOCX, TXT, MD)</span><input name="homeworkFile" type="file" accept=".pdf,.docx,.txt,.md"></label>
+<button class="primary">Add to coursework</button>
+</form>
+<p id="task-status" class="notice" role="status"></p>
+</div></details></section>
+<section class="card settings-panel"><details open><summary><h2>Canvas Modules and readings</h2><span class="panel-chevron" aria-hidden="true">⌄</span></summary><div class="settings-panel-content">
+<p class="hint">Save the Modules page as HTML from Canvas, or import a reading as plain text.</p>
+<form id="link-import-form">
+<label>Paste a Canvas file or document link<input name="url" type="url" required placeholder="https://canvas.tamu.edu/courses/.../files/..."></label>
+<label>Course<select name="course" required></select></label>
+<label>Topics <span class="hint">(optional)</span><input name="topics" placeholder="e.g. chemistry, postlab"></label>
+<button class="primary" type="submit">Import from link</button>
+<p id="link-import-status" class="notice" role="status"></p>
+</form>
+<p class="hint">Public documents can be read automatically when the site permits access. Private Canvas links may require authentication and cannot be bypassed by pasting a URL.</p>
+<hr class="subtle-rule">
+<p class="hint">Alternatively, import a saved Modules page or text reading:</p>
+<form id="materials-form">
+<label>Course<select name="course" required></select></label>
+<label>Canvas page or file URL<input name="url" type="url" required placeholder="https://…"></label>
+<label>Saved page or reading<input name="materials" type="file" accept=".html,.htm,.txt,.md" required></label>
+<label>Topics for this import <span class="hint">(optional)</span><input name="topics" placeholder="e.g. derivatives, limits"></label>
+<button class="primary">Import study materials</button>
+</form>
+<p id="material-status" class="notice" role="status"></p>
+</div></details></section>
+<section class="card settings-panel"><details open><summary><h2>Your Work Pace</h2><span class="panel-chevron" aria-hidden="true">⌄</span></summary><div class="settings-panel-content">
+<p class="hint">How long does a typical homework assignment take you? Courseplan uses this as your personal baseline and adjusts for the amount and complexity of instructions it can read.</p>
+<form id="pace-form"><label>Typical homework duration (hours)<input name="hours" type="number" min="0.25" max="40" step="0.25" value="2" required></label><button class="primary" type="submit">Save my pace and recalculate</button><p id="pace-status" class="notice" role="status"></p></form>
+<p class="hint">Estimates are approximate. You can override individual assignments.</p></div></details></section>
+<section class="card settings-panel"><details open><summary><h2>Grade-weighted priorities</h2><span class="panel-chevron" aria-hidden="true">⌄</span></summary><div class="settings-panel-content">
+<p class="hint">Choose a course, then enter the category percentages from its syllabus. Verify all extracted percentages after extraction.</p>
+<form id="grade-form"><label>Course<select name="course" required></select></label>
+<label>Paste syllabus grading section (optional)<textarea name="syllabus" rows="5" placeholder="Exams: 40%&#10;Homework: 25%&#10;Quizzes: 15%&#10;Labs: 20%"></textarea></label>
+<button type="button" id="extract-weights" class="secondary">Extract percentages from text</button>
+<div id="grade-weights" class="grade-weights"></div>
+<div class="pair"><label>New grade category<input id="new-grade-name" type="text" placeholder="e.g. Test 3 or Final exam" maxlength="60"></label><button id="add-grade-category" type="button" class="secondary align-end">+ Add category</button></div>
+<p class="hint">Add Test 1, Test 2, Final exam, or any custom category. Remove categories you do not use. Set each weight independently.</p>
+<p id="grade-total" class="hint"></p><button class="primary" type="submit">Save grading weights</button><p id="grade-status" class="notice" role="status"></p></form>
+<p class="hint">Category weight is not the percentage of your final grade represented by a single assignment. Priority also accounts for deadlines and estimated workload.</p></div></details></section>
+<section class="card settings-panel"><details open><summary><h2>Weekly availability</h2><span class="panel-chevron" aria-hidden="true">⌄</span></summary><div class="settings-panel-content">
+<form id="availability"><fieldset><legend>Study days</legend><div id="days" class="days"></div></fieldset>
+<div class="pair"><label>Start time<input name="start" type="time" required value="17:00"></label><label>Minutes per day<input name="minutes" type="number" min="30" max="480" step="15" required value="90"></label></div>
+<button class="primary">Build timeline</button>
+<p id="schedule-status" class="notice" role="status"></p>
+</form>
+</div></details></section>
+</aside>
+<div class="results">
+<section class="card course-visibility"><div class="section-head"><h2>Visible courses</h2><div class="coursework-actions"><button id="courses-all" type="button" class="secondary">Show all</button><button id="courses-none" type="button" class="secondary">Hide all</button><button id="clear-all-visible" type="button" class="secondary danger">Clear all data</button></div></div><p class="hint">Choose which courses appear across coursework, calendar, and study timeline. Hidden courses are not deleted.</p><div id="course-visibility-list" class="course-visibility-list"></div><p id="clear-all-status" class="notice" role="status" aria-live="polite"></p></section>
+<nav class="workspace-tabs" role="tablist" aria-label="Main workspace">
+<button id="tab-coursework" class="workspace-tab active" type="button" role="tab" aria-selected="true" aria-controls="coursework-panel">Coursework</button>
+<button id="tab-calendar" class="workspace-tab" type="button" role="tab" aria-selected="false" aria-controls="calendar-panel" tabindex="-1">Calendar</button>
+</nav>
+<section id="coursework-panel" class="tab-panel" role="tabpanel" aria-labelledby="tab-coursework">
+<section class="card"><div class="section-head"><h2>Coursework</h2><div class="coursework-actions"><button id="demo" type="button" class="secondary">Load example</button><button id="clear-all" type="button" class="secondary danger">Clear all data</button></div></div><div id="tasks"></div></section>
+<section class="card timeline"><div class="section-head"><h2>Study timeline</h2><span class="hint">Next 90 days</span></div><div id="timeline"></div></section>
+</section>
+<section id="calendar-panel" class="tab-panel" role="tabpanel" aria-labelledby="tab-calendar" hidden>
+<section class="card calendar-import-card">
+<div class="section-head"><h2>Import coursework calendar</h2></div>
+<p class="hint">Choose a downloaded Canvas .ics file or try a calendar subscription link. Past events are ignored.</p>
+<label class="file-label">Calendar file (.ics) <input id="calendar" type="file" accept=".ics,text/calendar,application/ics,text/plain"></label>
+<form id="calendar-url-form"><label>Canvas calendar subscription link<input name="url" type="url" required placeholder="https://canvas.tamu.edu/feeds/calendars/...ics" autocomplete="off"></label><button class="primary" type="submit">Import calendar from link</button></form>
+<p id="import-status" class="notice" role="status" aria-live="polite"></p><p id="attachment-status" class="notice" role="status" aria-live="polite"></p>
+</section>
+<section class="card calendar-card" aria-label="Coursework calendar">
+<div class="section-head calendar-heading"><h2>Coursework calendar</h2><span class="hint">Uses visible course selection above</span></div>
+<div class="calendar-controls"><button type="button" id="calendar-prev" class="secondary" aria-label="Previous month">←</button><strong id="calendar-month" aria-live="polite"></strong><button type="button" id="calendar-next" class="secondary" aria-label="Next month">→</button><button type="button" id="calendar-today" class="secondary">Today</button></div>
+<div class="calendar-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+<div id="calendar-grid" class="calendar-grid" aria-label="Monthly coursework deadlines"></div>
+<p class="hint">Select an assignment to jump to its details. Dates are assignment due dates.</p>
+</section>
+<section class="card calendar-card" aria-label="Study schedule calendar">
+<div class="section-head calendar-heading"><h2>Study schedule</h2><span class="hint">Sessions planned for the next 90 days, based on your availability and visible courses</span></div>
+<div class="calendar-controls"><button type="button" id="study-calendar-prev" class="secondary" aria-label="Previous study month">←</button><strong id="study-calendar-month" aria-live="polite"></strong><button type="button" id="study-calendar-next" class="secondary" aria-label="Next study month">→</button><button type="button" id="study-calendar-today" class="secondary">Today</button></div>
+<div class="calendar-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+<div id="study-calendar-grid" class="calendar-grid" aria-label="Monthly planned study sessions"></div><p id="study-calendar-empty" class="hint" hidden>No study sessions are planned for this month. Add coursework or update your availability.</p>
+<p class="hint">Each entry shows the assignment, planned start time, and study duration.</p>
+</section>
+</section>
+</div>
+</div>
+</main>
+<script>document.addEventListener("DOMContentLoaded",()=>{"use strict";
+
+const topicPatterns = [
+  ["limits", /\blimits?\b/i], ["derivatives", /\bderivatives?|differentiation\b/i],
+  ["integrals", /\bintegrals?|integration\b/i], ["continuity", /\bcontinuity\b/i],
+  ["probability", /\bprobability\b/i], ["statistics", /\bstatistics|hypothesis test/i],
+  ["linear algebra", /\bmatri(?:x|ces)|eigenvectors?|linear algebra\b/i],
+  ["mechanics", /\bkinematics|newton|mechanics\b/i], ["cell biology", /\bmitosis|meiosis|cell biology\b/i],
+  ["research", /\bresearch|literature review\b/i], ["programming", /\bprogramming|algorithms?|debugging\b/i]
+];
+
+function estimateWork(task, typicalMinutes = 120) {
+  const text = [task.title, task.details, task.fileText].filter(Boolean).join(" ");
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const numbered = (text.match(/(?:^|\n)\s*(?:\d+[.)]|question\s+\d+|problem\s+\d+)/gim) || []).length;
+  const demanding = (text.match(/\b(?:calculate|derive|prove|analy[sz]e|evaluate|explain|compare|research|implement|experiment|graph|plot|discuss|justify|interpret)\b/gi) || []).length;
+  const simpler = (text.match(/\b(?:identify|list|define|select|match|label)\b/gi) || []).length;
+  const fileAvailable = Boolean(task.fileText?.trim());
+  const evidence = fileAvailable ? "uploaded homework file" : (task.details?.trim() ? "assignment instructions" : "title only");
+  const base = task.type === "exam" ? Math.max(typicalMinutes, 120) : typicalMinutes;
+  const complexity = Math.min(2.5, Math.max(0.65, 0.8 + Math.min(words, 1800) / 1200 + Math.min(numbered, 25) * .045 + Math.min(demanding, 30) * .025 - Math.min(simpler, 12) * .01));
+  const minutes = Math.max(15, Math.min(2400, Math.round(base * complexity / 5) * 5));
+  return {minutes, evidence, words, numbered, demanding, complexity};
+}
+
+function analyze(task) {
+  const text = task.title + " " + (task.details || "") + " " + (task.fileText || "");
+  const inferred = topicPatterns.filter(([, pattern]) => pattern.test(text)).map(([topic]) => topic);
+  const topics = task.topics ? [...new Set(task.topics.split(",").map(t => t.trim().toLowerCase()).filter(Boolean))] : inferred;
+  const minutes = estimateWork(task, 120).minutes;
+  return {topics, minutes: task.minutes ?? minutes};
+}
+
+function dateKey(date) {
+  const parts = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+  return parts.map(part => String(part).padStart(2, "0")).join("-");
+}
+
+function parseCalendar(source) {
+  if (!/^BEGIN:VCALENDAR\s*$/im.test(source)) throw new Error("Choose a valid .ics calendar file.");
+  const results = [];
+  const events = source.replace(/\r?\n[ \t]/g, "").matchAll(/BEGIN:VEVENT\r?\n([\s\S]*?)END:VEVENT/g);
+  for (const [, body] of events) {
+    const fields = {};
+    for (const line of body.split(/\r?\n/)) {
+      const match = /^([^;:]+)(?:;[^:]*)?:(.*)$/.exec(line);
+      if (match) fields[match[1]] = match[2];
+    }
+    const raw = fields.DTSTART;
+    if (fields.STATUS === "CANCELLED" || !raw || !/^\d{8}(T\d{6}Z?)?$/.test(raw) || !fields.SUMMARY) continue;
+    const date = raw.slice(0, 8).replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3");
+    const clock = raw.slice(9, 15).replace(/^(\d{2})(\d{2})(\d{2})$/, "$1:$2:$3");
+    const instant = clock ? new Date(date + "T" + clock + (raw.endsWith("Z") ? "Z" : "")) : null;
+    if (instant && Number.isNaN(+instant)) continue;
+    const title = unescapeCalendar(fields.SUMMARY);
+    const course = /\[([^\[\]]+)\]\s*$/.exec(title)?.[1] || "";
+    const type = /\b(exams?|midterms?|tests?|quiz(?:zes)?)\b/i.test(title) ? "exam" : "assignment";
+    const details = unescapeCalendar(fields.DESCRIPTION || "");
+    results.push({
+      source: (fields.UID || title) + (fields["RECURRENCE-ID"] || ""),
+      title, type, course, due: instant ? dateKey(instant) : date,
+      cutoff: instant ? +instant : null,
+      details, topics: "",
+      assignmentUrl: canvasAssignmentUrl(fields, details, unescapeCalendar(fields["X-ALT-DESC"] || "")),
+      attachments: calendarAttachments(details, unescapeCalendar(fields["X-ALT-DESC"] || ""), fields.URL)
+    });
+  }
+  return results;
+}
+
+// Only use verified assignment URLs present in the Canvas calendar event.
+// A calendar URL is not an assignment URL; never fabricate assignment IDs.
+function canvasAssignmentUrl(fields, details, html) {
+  const candidates = [fields.URL || ""];
+  for (const text of [details, html]) {
+    for (const match of text.matchAll(/https?:\/\/[^\s<>"']+/gi)) candidates.push(match[0]);
+    for (const match of text.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']+)["']/gi)) candidates.push(match[1]);
+  }
+  for (const raw of candidates) {
+    try {
+      const url = new URL(decodeLinkText(raw).replace(/[.,;)\]]+$/, ""));
+      if (!/^https:$/.test(url.protocol) || url.hostname !== "canvas.tamu.edu" || url.username || url.password) continue;
+      if (!/^\/courses\/\d+\/assignments\/\d+\/?$/.test(url.pathname)) continue;
+      // Remove calendar navigation so the link points directly to the assignment.
+      url.searchParams.delete("return_to");
+      url.hash = "";
+      return url.href;
+    } catch { /* Ignore invalid URLs. */ }
+  }
+  return "";
+}
+
+function unescapeCalendar(value) {
+  return value.replace(/\\([nN,;\\])/g, (_, char) => /n/i.test(char) ? "\n" : char);
+}
+
+function decodeLinkText(value) {
+  const entities = {amp: "&", quot: '"', apos: "'", lt: "<", gt: ">", nbsp: " "};
+  return value.replace(/&(amp|quot|apos|lt|gt|nbsp|#39);/gi, (_, name) =>
+    name === "#39" ? "'" : entities[name.toLowerCase()]
+  );
+}
+
+function calendarAttachments(details, html, baseUrl) {
+  const attachments = new Map();
+  function add(rawUrl, label) {
+    let url;
+    try {
+      url = new URL(decodeLinkText(rawUrl), baseUrl || undefined);
+    } catch {
+      return;
+    }
+    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) return;
+    const canvasFile = /^(?:\/courses\/\d+)?\/files\/(\d+)(?:\/|$)/.exec(url.pathname);
+    const documentName = /[^/]+\.(?:pdf|docx?|pptx?|xlsx?|txt|tex|zip)$/i.exec(url.pathname);
+    const canvasPage = /^\/courses\/\d+\/(?:pages\/[^/]+|modules\/items\/\d+|modules\/\d+)\/?$/.test(url.pathname);
+    if (!canvasFile && !documentName && !canvasPage) return;
+    const key = canvasFile ? url.origin + "/files/" + canvasFile[1] : url.href;
+    if (attachments.has(key)) return;
+    let filename = documentName?.[0] || "";
+    try {
+      filename = decodeURIComponent(filename);
+    } catch {
+      // Keep the original filename if the URL contains malformed escapes.
+    }
+    const fallback = canvasFile ? "Canvas file " + canvasFile[1] : "Canvas study material";
+    attachments.set(key, {url: url.href, label: label || filename || fallback});
+  }
+
+  for (const [, attributes, contents] of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)) {
+    const href = /(?:^|\s)href\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(attributes);
+    if (!href) continue;
+    const title = /(?:^|\s)title\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(attributes);
+    const text = decodeLinkText(contents.replace(/<[^>]*>/g, "")).trim();
+    const label = text || decodeLinkText(title?.[1] ?? title?.[2] ?? "").trim();
+    add(href[1] ?? href[2] ?? href[3], label);
+  }
+  for (const [url] of details.matchAll(/https?:\/\/[^\s<>"']+/gi)) {
+    add(url.replace(/[.,;)\]]+$/, ""));
+  }
+  return [...attachments.values()];
+}
+
+function courseOf(item) {
+  return item.course || /\[([^\[\]]+)\]\s*$/.exec(item.title)?.[1] || "";
+}
+
+function studySources(task, tasks, library = []) {
+  const topics = analyze(task).topics;
+  const course = courseOf(task);
+  const related = [...tasks, ...library].filter(item => item !== task && course && courseOf(item) === course
+    && analyze(item).topics.some(topic => topics.includes(topic)));
+  const seen = new Set();
+  return [task, ...related].map(item => ({
+    title: item.title,
+    details: item.details,
+    materials: [...(item.attachments || []), ...calendarAttachments(item.details || "", "", "")].filter(material => {
+      if (seen.has(material.url)) return false;
+      seen.add(material.url);
+      return true;
+    })
+  }));
+}
+
+function readStudyGuide(source, taskId) {
+  const guide = JSON.parse(source);
+  const text = value => typeof value === "string" && value.trim();
+  if (guide?.taskId !== taskId || !Array.isArray(guide.questions) || !guide.questions.length
+      || guide.questions.length > 50 || !guide.questions.every(question =>
+        question && text(question.prompt) && Array.isArray(question.choices)
+        && question.choices.length >= 2 && question.choices.length <= 6 && question.choices.every(text)
+        && Number.isInteger(question.answer) && question.answer >= 0 && question.answer < question.choices.length
+        && text(question.explanation) && text(question.source))) {
+    throw new Error("Use the study-guide JSON format from this assessment’s agent export.");
+  }
+  return guide.questions;
+}
+
+function deadline(task) {
+  return task.cutoff ?? +new Date(task.due + (task.type === "exam" ? "T00:00:00" : "T23:59:59"));
+}
+
+function upcomingTasks(tasks, now = new Date()) {
+  const today = dateKey(now);
+  return tasks.filter(task => task.cutoff != null ? task.cutoff > +now : task.due >= today);
+}
+
+function buildTimeline(tasks, availability, now = new Date()) {
+  const minute = 60000;
+  const [hour, startMinute] = availability.start.split(":").map(Number);
+  const slots = [];
+  for (let offset = 0; offset < 90; offset++) {
+    const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() + offset, hour, startMinute);
+    if (!availability.days.includes(day.getDay())) continue;
+    const end = new Date(day);
+    end.setMinutes(end.getMinutes() + availability.minutes);
+    slots.push({start: Math.max(+day, Math.ceil(+now / minute) * minute), end: +end});
+  }
+  const sessions = [];
+  const unscheduled = [];
+  const sorted = upcomingTasks(tasks, now).sort((a, b) => {
+    const daysA = Math.max(0, (deadline(a) - +now) / 86400000);
+    const daysB = Math.max(0, (deadline(b) - +now) / 86400000);
+    if (daysA <= 1 || daysB <= 1) return deadline(a) - deadline(b);
+    return (b.priorityScore || 0) - (a.priorityScore || 0) || deadline(a) - deadline(b);
+  });
+  for (const task of sorted) {
+    const due = deadline(task);
+    const {topics, minutes} = analyze(task);
+    let remaining = minutes;
+    const practice = task.type === "exam" && sessions.some(session =>
+      session.type === "assignment" && topics.some(topic => session.topics.includes(topic))
+    );
+    const actions = task.type === "exam"
+      ? [practice ? "Review topics from earlier coursework" : "Review exam topics", "Practice questions", "Recall and check weak areas"]
+      : ["Work on assignment", "Continue assignment", "Review and prepare to submit"];
+    let count = 0;
+    const taskSessions = [];
+    // Spread work across days first, then use any remaining capacity.
+    for (const limit of [60, Infinity]) {
+      for (const slot of slots) {
+        if (!remaining) break;
+        const capacity = Math.floor((Math.min(slot.end, due) - slot.start) / minute);
+        if (capacity <= 0) continue;
+        const duration = Math.min(remaining, capacity, limit);
+        taskSessions.push({title: task.title, type: task.type, topics, start: slot.start, duration});
+        slot.start += duration * minute;
+        remaining -= duration;
+      }
+      if (!remaining) break;
+    }
+    taskSessions.sort((a, b) => a.start - b.start);
+    for (const session of taskSessions) {
+      session.action = actions[Math.min(count, actions.length - 1)];
+      count++;
+      sessions.push(session);
+    }
+    if (remaining) unscheduled.push({title: task.title, remaining});
+  }
+  return {sessions: sessions.sort((a, b) => a.start - b.start), unscheduled};
+}
+
+if (typeof module !== "undefined") module.exports = {estimateWork, analyze, dateKey, parseCalendar, buildTimeline, upcomingTasks, studySources, readStudyGuide};
+
+"use strict";
+
+const byId = id => document.getElementById(id);
+const taskForm = byId("task-form");
+const availabilityForm = byId("availability");
+const materialsForm = byId("materials-form");
+const linkImportForm = byId("link-import-form");
+const storageKey = "courseplan.v1";
+let state = {tasks: [], paceMinutes: 120, availability: {days: [0, 1, 2, 3, 4, 6], start: "17:00", minutes: 90}};
+try {
+  const saved = JSON.parse(localStorage.getItem(storageKey));
+  if (saved) state = saved;
+} catch {
+  byId("task-status").textContent = "Saved coursework could not be loaded.";
+}
+
+function node(tag, value, className) {
+  const element = document.createElement(tag);
+  element.textContent = value;
+  if (className) element.className = className;
+  return element;
+}
+
+function save() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  } catch {
+    byId("task-status").textContent = "Browser storage is unavailable. Changes will last for this page session.";
+  }
+}
+
+const dateFormat = new Intl.DateTimeFormat(undefined, {weekday: "short", month: "short", day: "numeric"});
+const timeFormat = new Intl.DateTimeFormat(undefined, {hour: "numeric", minute: "2-digit"});
+const formatDue = value => dateFormat.format(new Date(value + "T12:00:00"));
+
+function estimatedTask(task) {
+  const result = estimateWork(task, Number(state.paceMinutes) || 120);
+  const history = (state.tasks || []).filter(t => t.actualMinutes > 0 && t.feedbackBaseline > 0 && t.id !== task.id);
+  const course = courseOf(task);
+  const relevant = history.filter(t => course && courseOf(t) === course && t.type === task.type);
+  const samples = relevant.length ? relevant : history.filter(t => t.type === task.type);
+  // Smooth the average ratio toward 1.0 while data is sparse; cap outliers.
+  const ratios = samples.map(t => Math.max(0.3, Math.min(3, t.actualMinutes / t.feedbackBaseline)));
+  const factor = (4 + ratios.reduce((a,b) => a+b, 0)) / (4 + ratios.length);
+  const learned = Math.max(15, Math.min(2400, Math.round(result.minutes * factor / 5) * 5));
+  return {...result, minutes: task.minutes ?? learned, learnedSamples: ratios.length, factor};
+}
+
+async function readHomeworkFile(file) {
+  if (!file || !file.size) return "";
+  if (file.size > 10_000_000) throw new Error("Homework files must be under 10 MB.");
+  const name = file.name.toLowerCase();
+  if (/\.(txt|md)$/.test(name)) return (await file.text()).slice(0, 60000);
+  if (name.endsWith('.docx')) {
+    if (!window.mammoth) throw new Error("DOCX reader did not load. Check your internet connection.");
+    return (await window.mammoth.extractRawText({arrayBuffer: await file.arrayBuffer()})).value.slice(0, 60000);
+  }
+  if (name.endsWith('.pdf')) {
+    if (!window.pdfjsLib) throw new Error("PDF reader did not load. Check your internet connection.");
+    const pdf = await window.pdfjsLib.getDocument({data: new Uint8Array(await file.arrayBuffer()), disableWorker:true}).promise;
+    let parts = [];
+    for(let i=1;i<=Math.min(pdf.numPages,80);i++) {
+      parts.push((await (await pdf.getPage(i)).getTextContent()).items.map(x=>x.str||'').join(' '));
+      if(parts.join(' ').length>60000)break;
+    }
+    return parts.join('\n').slice(0,60000);
+  }
+  throw new Error("Choose a PDF, DOCX, TXT or MD file.");
+}
+
+function addTask(task) {
+  state.tasks.push({...task, id: Date.now().toString(36) + "-" + Math.random().toString(36).slice(2)});
+}
+
+function readModulePage(html, pageUrl, course, topics) {
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  const coursePath = /^\/courses\/\d+/.exec(pageUrl.pathname)?.[0];
+  if (!coursePath) throw new Error("Use the URL of your Canvas course’s Modules page.");
+  const items = new Map();
+  for (const anchor of template.content.querySelectorAll("a[href]")) {
+    let url;
+    try {
+      url = new URL(anchor.getAttribute("href"), pageUrl);
+    } catch {
+      continue;
+    }
+    if (url.origin !== pageUrl.origin || url.username || url.password) continue;
+    const path = url.pathname.startsWith(coursePath + "/") ? url.pathname.slice(coursePath.length) : url.pathname;
+    if (!/^\/(?:modules\/items\/\d+|pages\/[^/]+|files\/\d+|external_tools\/retrieve)(?:\/|$)/.test(path)) continue;
+    const title = anchor.textContent.trim();
+    if (!title || items.has(url.href)) continue;
+    const module = anchor.closest(".context_module, [id^='context_module_']");
+    const heading = module?.querySelector(".name, h2, h3")?.textContent.trim();
+    items.set(url.href, {
+      title, course, topics, details: heading ? "Canvas module: " + heading : "",
+      attachments: [{url: url.href, label: title}]
+    });
+  }
+  return [...items.values()];
+}
+
+const gradeCategories = {homework:"Homework", quiz:"Quizzes", exam:"Exams / tests", final:"Final exam", discussion:"Discussions", lab:"Labs", project:"Projects", participation:"Participation", other:"Other"};
+function categoryOf(task) {
+  if (task.gradeCategory && task.gradeCategory !== "auto") return task.gradeCategory;
+  const title = (task.title || "").toLowerCase();
+  if (/\b(quiz|quizzes)\b/.test(title)) return "quiz";
+  const custom = Object.keys((state.gradeWeights || {})[courseOf(task)] || {});
+  const matched = custom.find(key => key.startsWith("custom_") && title.includes(key.slice(7).replace(/_/g," ")));
+  if (matched) return matched;
+  if (/\bfinal\b/.test(title)) return "final";
+  if (/\b(exam|midterm|test)\b/.test(title) || task.type === "exam") return "exam";
+  if (/\b(discussion|forum|reply post)\b/.test(title)) return "discussion";
+  if (/\b(lab|postlab|prelab)\b/.test(title)) return "lab";
+  if (/\b(project|presentation|paper|essay)\b/.test(title)) return "project";
+  if (/\b(participation|attendance)\b/.test(title)) return "participation";
+  return "homework";
+}
+function priorityOf(task) {
+  const weights = (state.gradeWeights || {})[courseOf(task)] || {};
+  const category = categoryOf(task);
+  const weight = weights[category] === undefined ? NaN : Number(weights[category]);
+  const known = Number.isFinite(weight) && weight >= 0;
+  const hours = Math.max(0, (new Date(task.due + "T23:59:59") - Date.now()) / 3600000);
+  const urgency = 1 / (1 + hours / 48);
+  const effort = Math.min(1, estimatedTask(task).minutes / 480);
+  const score = (known ? weight / 100 : 0.12) * 65 + urgency * 25 + effort * 10;
+  return {category, weight: known ? weight : null, score, label: score >= 26 ? "High" : score >= 15 ? "Medium" : "Low"};
+}
+function renderMaterialCourses() {
+  const select = materialsForm.elements.course;
+  const linkSelect = linkImportForm.elements.course;
+  const selected = select.value;
+  const linkSelected = linkSelect.value;
+  const courses = [...new Set(state.tasks.map(courseOf).filter(Boolean))].sort();
+  const gradeSelect = byId("grade-form").elements.course;
+  const gradeSelected = gradeSelect.value;
+  gradeSelect.replaceChildren();
+  for (const course of courses) gradeSelect.add(new Option(course, course));
+  if (courses.includes(gradeSelected)) gradeSelect.value = gradeSelected;
+  if (!courses.length) gradeSelect.add(new Option("Import or add coursework first", ""));
+  select.replaceChildren();
+  linkSelect.replaceChildren();
+  for (const course of courses) { select.add(new Option(course, course)); linkSelect.add(new Option(course, course)); }
+  if (courses.includes(selected)) select.value = selected;
+  if (courses.includes(linkSelected)) linkSelect.value = linkSelected;
+  if (!courses.length) { select.add(new Option("Import a Canvas calendar first", "")); linkSelect.add(new Option("Import a Canvas calendar first", "")); }
+}
+
+// Link-only imports: read public, CORS-enabled documents without manual downloading.
+// Browser security prevents accessing protected cross-origin Canvas documents.
+async function extractLinkedText(response, url) {
+  const type = (response.headers.get("content-type") || "").toLowerCase();
+  const path = url.pathname.toLowerCase();
+  if (type.includes("text/plain") || type.includes("text/markdown") || /\.(txt|md)$/.test(path)) {
+    return (await response.text()).slice(0, 60000);
+  }
+  if (type.includes("text/html") || /\.html?$/.test(path)) {
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    doc.querySelectorAll("script,style,nav,footer,header").forEach(element => element.remove());
+    return (doc.body?.innerText || doc.body?.textContent || "").trim().slice(0, 60000);
+  }
+  if (type.includes("wordprocessingml") || path.endsWith(".docx")) {
+    if (!window.mammoth) throw new Error("DOCX reader unavailable. Check your internet connection.");
+    const buffer = await response.arrayBuffer();
+    return (await window.mammoth.extractRawText({arrayBuffer: buffer})).value.slice(0, 60000);
+  }
+  if (type.includes("pdf") || path.endsWith(".pdf")) {
+    if (!window.pdfjsLib) throw new Error("PDF reader unavailable. Check your internet connection.");
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    const pdf = await window.pdfjsLib.getDocument({data: bytes, disableWorker: true}).promise;
+    const parts = [];
+    for (let i = 1; i <= Math.min(pdf.numPages, 80); i++) {
+      const page = await pdf.getPage(i);
+      parts.push((await page.getTextContent()).items.map(item => item.str || "").join(" "));
+      if (parts.join(" ").length >= 60000) break;
+    }
+    return parts.join("\n").slice(0, 60000);
+  }
+  throw new Error("This link is not a readable HTML, text, DOCX, or PDF response.");
+}
+
+linkImportForm.onsubmit = async event => {
+  event.preventDefault();
+  const status = byId("link-import-status");
+  const button = linkImportForm.querySelector("button");
+  button.disabled = true;
+  status.textContent = "Trying to read the document…";
+  try {
+    const {url: raw, course, topics} = Object.fromEntries(new FormData(linkImportForm));
+    const url = new URL(raw);
+    if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password)
+      throw new Error("Enter a valid HTTP or HTTPS document URL.");
+    const match = /\/courses\/\d+\/files\/(\d+)/.exec(url.pathname);
+    const title = match ? "Canvas file " + match[1] : decodeURIComponent(url.pathname.split('/').pop() || "Linked document");
+    let details = "";
+    let failure = "";
+    try {
+      const response = await fetch(url.href, {credentials: url.origin === location.origin ? "same-origin" : "omit", redirect: "follow"});
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      if (response.url && /\/login|\/saml|\/oauth/i.test(new URL(response.url).pathname)) throw new Error("Canvas login required");
+      const size = Number(response.headers.get("content-length"));
+      if (size > 15_000_000) throw new Error("Document exceeds 15 MB");
+      details = (await extractLinkedText(response, url)).trim();
+      if (!details) throw new Error("No readable text found");
+    } catch (error) {
+      failure = error.message;
+    }
+    const key = item => item.course + "|" + item.attachments?.[0]?.url;
+    const library = new Map((state.materials || []).map(item => [key(item), item]));
+    const material = {title, course, topics, details, attachments: [{url: url.href, label: title}]};
+    library.set(key(material), material);
+    state.materials = [...library.values()];
+    update();
+    status.textContent = details
+      ? "Document text imported successfully (" + details.length + " characters)."
+      : "Link saved, but document text was NOT imported (" + failure + "). Private Canvas files require an authorized Canvas integration; browser restrictions may also block public links.";
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
+};
+
+materialsForm.onsubmit = async event => {
+  event.preventDefault();
+  const status = byId("material-status");
+  const button = materialsForm.querySelector("button");
+  button.disabled = true;
+  try {
+    const {course, url, materials: file, topics} = Object.fromEntries(new FormData(materialsForm));
+    const pageUrl = new URL(url);
+    if (!["https:", "http:"].includes(pageUrl.protocol) || pageUrl.username || pageUrl.password) {
+      throw new Error("Enter an HTTP or HTTPS Canvas URL.");
+    }
+    if (file.size > 5_000_000) throw new Error("Choose a saved page or reading under 5 MB.");
+    const contents = await file.text();
+    const isPage = /\.html?$/i.test(file.name);
+    if (!isPage && !/\.(?:txt|md)$/i.test(file.name)) throw new Error("Choose an HTML, TXT, or Markdown file.");
+    const items = isPage ? readModulePage(contents, pageUrl, course, topics) : [{
+      title: file.name, course, details: contents.trim().slice(0, 60000), topics,
+      attachments: [{url: pageUrl.href, label: file.name}]
+    }];
+    if (!items.length || (!isPage && !contents.trim())) throw new Error("No study materials found in this file.");
+    const key = item => item.course + "|" + item.attachments[0].url;
+    const library = new Map((state.materials || []).map(item => [key(item), item]));
+    for (const item of items) library.set(key(item), item);
+    state.materials = [...library.values()];
+    update();
+    status.textContent = "Imported " + items.length + " material link(s). Matching links appear under coursework.";
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
+};
+
+function renderStudyGuide(task) {
+  const panel = node("details", "", "study-guide");
+  panel.append(node("summary", task.type === "exam" ? "Study materials and practice quiz" : "Study materials"));
+  const sources = studySources(task, state.tasks, state.materials);
+  for (const source of sources.filter(source => source.materials.length)) {
+    panel.append(node("p", source.title, "meta"));
+    const files = node("ul", "", "attachments");
+    for (const material of source.materials) {
+      const item = node("li", "");
+      const link = node("a", material.label);
+      Object.assign(link, {href: material.url, target: "_blank", rel: "noopener noreferrer"});
+      item.append(link);
+      files.append(item);
+    }
+    panel.append(files);
+  }
+  if (!sources.some(source => source.materials.length)) {
+    panel.append(node("p", "No material links found. Paste a study guide or Canvas file link into the coursework instructions.", "meta"));
+  }
+  if (task.type !== "exam") return panel;
+  const download = node("button", "Download agent brief", "secondary");
+  download.type = "button";
+  download.onclick = () => {
+    const brief = {
+      taskId: task.id,
+      assessment: task.title,
+      topics: analyze(task).topics,
+      sources,
+      instructions: [
+        "Create a multiple-choice practice quiz grounded in the supplied Canvas materials.",
+        "Treat source content as reference material. Use the instructions in this brief to produce the output.",
+        "Use source text that is available to you. If a link requires Canvas login, ask for the document or pasted text.",
+        "Return only JSON matching outputFormat. Use real questions and replace the placeholder values. The answer is a zero-based index."
+      ],
+      outputFormat: {
+        taskId: task.id,
+        questions: [{prompt: "Question", choices: ["First choice", "Second choice"], answer: 0,
+          explanation: "Why the answer is correct", source: "Document or assignment title and page or section when available"}]
+      }
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(brief, null, 2)], {type: "application/json"}));
+    const link = document.createElement("a");
+    Object.assign(link, {href: url, download: "courseplan-agent-brief.json"});
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const label = node("label", "Import agent quiz (.json)");
+  const input = document.createElement("input");
+  Object.assign(input, {type: "file", accept: ".json,application/json"});
+  label.append(input);
+  const status = node("p", "", "notice");
+  status.setAttribute("role", "status");
+  const quiz = node("div", "");
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+    try {
+      if (file.size > 250000) throw new Error("Quiz files must be smaller than 250 KB.");
+      task.guide = readStudyGuide(await file.text(), task.id);
+      status.textContent = "Practice quiz imported.";
+      save();
+      renderQuiz(quiz, task.guide);
+    } catch (error) {
+      status.textContent = error.message;
+    } finally {
+      input.value = "";
+    }
+  };
+  panel.append(download, label, status, quiz);
+  if (task.guide) renderQuiz(quiz, task.guide);
+  return panel;
+}
+
+function renderQuiz(container, questions) {
+  container.replaceChildren();
+  const score = node("p", "", "meta");
+  score.setAttribute("role", "status");
+  const reset = node("button", "Restart quiz", "secondary");
+  reset.type = "button";
+  reset.onclick = () => {
+    renderQuiz(container, questions);
+    container.querySelector(".quiz-choices button").focus();
+  };
+  container.append(score, reset);
+  let answered = 0;
+  let correct = 0;
+  const showScore = () => {
+    score.textContent = answered + " of " + questions.length + " answered · " + correct + " correct";
+  };
+  showScore();
+  for (const question of questions) {
+    const group = node("fieldset", "", "row");
+    const choices = node("div", "", "quiz-choices");
+    const feedback = node("p", "", "meta");
+    feedback.setAttribute("role", "status");
+    question.choices.forEach((choice, index) => {
+      const button = node("button", choice, "secondary");
+      button.type = "button";
+      button.onclick = () => {
+        const right = index === question.answer;
+        answered++;
+        if (right) correct++;
+        for (const option of choices.children) option.disabled = true;
+        feedback.textContent = (right ? "Correct. " : "Correct answer: " + question.choices[question.answer] + ". ")
+          + question.explanation + " Source: " + question.source;
+        showScore();
+      };
+      choices.append(button);
+    });
+    group.append(node("legend", question.prompt), choices, feedback);
+    container.append(group);
+  }
+}
+
+function fillGradeCategoryOptions(select, course) {
+  if (!select) return;
+  const previous = select.value;
+  for (const option of [...select.options]) if (option.dataset.custom) option.remove();
+  const custom = (state.gradeLabels || {});
+  for (const [key, label] of Object.entries(custom)) {
+    if ((state.gradeWeights || {})[course]?.[key] === undefined) continue;
+    const option = new Option(label, key);
+    option.dataset.custom = "1";
+    select.add(option);
+  }
+  if ([...select.options].some(o => o.value === previous)) select.value = previous;
+}
+// A display-only filter; hidden courses remain stored and available for editing.
+let visibleCourseKeys = null; // null = all courses; otherwise a Set of selected course keys
+try {
+  const saved = JSON.parse(localStorage.getItem("courseplan.visibleCourses"));
+  if (Array.isArray(saved)) visibleCourseKeys = new Set(saved);
+} catch {}
+const courseKey = task => courseOf(task) || "__uncategorized__";
+const isVisibleCourse = task => visibleCourseKeys === null || visibleCourseKeys.has(courseKey(task));
+function renderCourseVisibility() {
+  const list = byId("course-visibility-list");
+  list.replaceChildren();
+  const courses = [...new Set(state.tasks.map(courseKey))].sort((a,b) => a.localeCompare(b));
+  if (!courses.length) {
+    list.append(node("p", "Import a calendar or add coursework to see your courses.", "hint"));
+    return;
+  }
+  for (const key of courses) {
+    const label = node("label", "", "course-visibility-item");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = visibleCourseKeys === null || visibleCourseKeys.has(key);
+    checkbox.onchange = () => {
+      if (visibleCourseKeys === null) visibleCourseKeys = new Set(courses);
+      if (checkbox.checked) visibleCourseKeys.add(key);
+      else visibleCourseKeys.delete(key);
+      persistCourseVisibility();
+    };
+    const count = state.tasks.filter(task => courseKey(task) === key).length;
+    label.append(checkbox, node("span", key === "__uncategorized__" ? "Uncategorized" : key), node("small", count + " item" + (count === 1 ? "" : "s"), "meta"));
+    list.append(label);
+  }
+}
+function persistCourseVisibility() {
+  try {localStorage.setItem("courseplan.visibleCourses", JSON.stringify(visibleCourseKeys === null ? null : [...visibleCourseKeys]));} catch {}
+  renderCourseVisibility();
+  renderTasks();renderTimeline();renderCalendar();renderStudyCalendar();
+}
+byId("courses-all").onclick = () => {visibleCourseKeys = null;persistCourseVisibility();};
+byId("courses-none").onclick = () => {visibleCourseKeys = new Set();persistCourseVisibility();};
+function renderTasks() {
+  renderMaterialCourses();
+  fillGradeCategoryOptions(taskForm.elements.gradeCategory, "");
+  const list = byId("tasks");
+  list.replaceChildren();
+  const upcoming = state.tasks.filter(isVisibleCourse).sort((a, b) => a.due.localeCompare(b.due));
+  if (!upcoming.length) {
+    const message = "Import a calendar or add an assignment to get started.";
+    list.append(node("p", message, "empty"));
+  }
+  for (const task of upcoming) {
+    const analysis = analyze(task);
+    const matchingMaterials = (state.materials || []).filter(m => courseOf(task) && courseOf(m) === courseOf(task) && m.details?.trim());
+    const readable = matchingMaterials.filter(m => (m.title || '').toLowerCase().includes(task.title.toLowerCase().slice(0, 12)) || analyze(m).topics.some(t => analysis.topics.includes(t)));
+    const materialText = readable.map(m => m.details).join('\n').slice(0, 60000);
+    const estimate = estimatedTask(task.fileText ? task : {...task, fileText: materialText});
+    const row = node("article", "", "row");
+    const heading = node("div", "", "row-head");
+    const remove = node("button", "Remove", "secondary");
+    remove.type = "button";
+    remove.setAttribute("aria-label", "Remove " + task.title);
+    remove.onclick = () => {
+      state.tasks = state.tasks.filter(item => item.id !== task.id);
+      update();
+    };
+    if (task.assignmentUrl) {
+      const assignmentLink = node("a", task.title);
+      assignmentLink.href = task.assignmentUrl;
+      assignmentLink.target = "_blank";
+      assignmentLink.rel = "noopener noreferrer";
+      heading.append(assignmentLink, remove);
+    } else {
+      heading.append(node("strong", task.title), remove);
+    }
+    const priority = priorityOf(task);
+    heading.append(node("span", priority.label + " priority", "priority-pill " + priority.label.toLowerCase()));
+    if (task.assignmentUrl) {
+      const openAssignment = node("a", "Open assignment in Canvas ↗");
+      openAssignment.href = task.assignmentUrl;
+      openAssignment.target = "_blank";
+      openAssignment.rel = "noopener noreferrer";
+      row.append(openAssignment);
+    }
+    row.append(heading, node("p", (task.type === "exam" ? "Exam" : "Assignment") + " · " + formatDue(task.due) + " · " + estimate.minutes + " min " + (task.minutes != null ? "(manual override)" : "estimated") + " · " + estimate.evidence, "meta"));
+    row.append(node("p", (gradeCategories[priority.category] || (state.gradeLabels || {})[priority.category] || priority.category) + " · " + (priority.weight == null ? "Grade weight not set" : priority.weight + "% course category weight") + " · priority score " + priority.score.toFixed(1), "meta"));
+    const topicLabel = task.topics ? "Topics" : "Suggested topics";
+    row.append(node("p", analysis.topics.length ? topicLabel + " · " + analysis.topics.join(", ") : "Add topics to connect this item to related work.", "meta"));
+    if (task.attachments?.length) {
+      const files = node("ul", "", "attachments");
+      for (const attachment of task.attachments) {
+        const item = node("li", "");
+        const link = node("a", attachment.label);
+        link.href = attachment.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        item.append(link);
+        files.append(item);
+      }
+      row.append(node("p", "Attachments", "meta"), files);
+    }
+    const editor = node("details", "");
+    editor.append(node("summary", "Edit coursework"));
+    const form = taskForm.cloneNode(true);
+    form.removeAttribute("id");
+    fillGradeCategoryOptions(form.elements.gradeCategory, courseOf(task));
+    for (const name of ["title", "type", "due", "details", "topics", "gradeCategory", "course"]) form.elements.namedItem(name).value = task[name] || (name === "gradeCategory" ? "auto" : "");
+    const estimateLabel = node("label", "Override estimated minutes (optional)");
+    const minutes = document.createElement("input");
+    Object.assign(minutes, {type: "number", min: "15", max: "2400", step: "5", required: false, value: task.minutes ?? ""});
+    minutes.placeholder = "Automatic: " + estimate.minutes;
+    estimateLabel.append(minutes);
+    form.querySelector("button").textContent = "Save changes";
+    form.insertBefore(estimateLabel, form.querySelector("button"));
+    form.onsubmit = async event => {
+      event.preventDefault();
+      const changes = Object.fromEntries(new FormData(form));
+      const file = form.elements.namedItem('homeworkFile').files[0];
+      try { if(file) { changes.fileText = await readHomeworkFile(file); changes.fileName = file.name; } }
+      catch(error) { window.alert(error.message); return; }
+      delete changes.homeworkFile;
+      if (task.due !== changes.due) task.cutoff = null;
+      Object.assign(task, changes);
+      if (minutes.value) task.minutes = Number(minutes.value); else delete task.minutes;
+      update();
+    };
+    editor.append(form);
+    row.append(editor);
+    const feedback = node("details", "", "study-guide");
+    feedback.append(node("summary", task.actualMinutes ? "Edit actual completion time" : "Finished? Record actual homework time"));
+    const feedbackForm = document.createElement("form");
+    const actualLabel = node("label", "How many hours did this take you?");
+    const actualInput = document.createElement("input");
+    Object.assign(actualInput, {type:"number", min:"0.25", max:"40", step:"0.25", required:true, value:task.actualMinutes ? String(task.actualMinutes/60) : ""});
+    actualLabel.append(actualInput);
+    const submitFeedback = node("button", "Save actual time", "primary");
+    submitFeedback.type = "submit";
+    feedbackForm.append(actualLabel, submitFeedback);
+    if (task.actualMinutes) {
+      const clearFeedback = node("button", "Remove recorded time", "secondary");
+      clearFeedback.type = "button";
+      clearFeedback.onclick = () => { delete task.actualMinutes; delete task.feedbackBaseline; update(); };
+      feedbackForm.append(clearFeedback);
+    }
+    feedbackForm.onsubmit = event => {
+      event.preventDefault();
+      const hours = Number(actualInput.value);
+      if (!Number.isFinite(hours) || hours < 0.25 || hours > 40) return;
+      // Record original, uncalibrated estimate to avoid feedback loops.
+      task.feedbackBaseline = estimateWork(task, Number(state.paceMinutes) || 120).minutes;
+      task.actualMinutes = Math.round(hours * 60);
+      update();
+    };
+    feedback.append(feedbackForm);
+    row.append(feedback);
+    if (estimate.learnedSamples) row.append(node("p", "Personalized using " + estimate.learnedSamples + " completed " + (course ? "course or similar" : "similar") + " assignment(s).", "meta"));
+    row.append(renderStudyGuide(task));
+    list.append(row);
+  }
+}
+
+function currentTimelinePlan() {
+  const plannedTasks = state.tasks.filter(isVisibleCourse).map(t => {
+    const topics = analyze(t).topics;
+    const related = (state.materials || []).filter(m => courseOf(t) && courseOf(m) === courseOf(t) && m.details?.trim() &&
+      ((m.title || '').toLowerCase().includes(t.title.toLowerCase().slice(0,12)) || analyze(m).topics.some(topic => topics.includes(topic))));
+    const fileText = t.fileText || related.map(m => m.details).join('\n').slice(0,60000);
+    return {...t, minutes: estimatedTask({...t, fileText}).minutes, priorityScore: priorityOf(t).score};
+  });
+  return buildTimeline(plannedTasks, state.availability);
+}
+function renderTimeline() {
+  const list = byId("timeline");
+  const {sessions, unscheduled} = currentTimelinePlan();
+  list.replaceChildren();
+  if (!sessions.length) list.append(node("p", "No sessions scheduled yet.", "empty"));
+  for (const session of sessions) {
+    const row = node("article", "", "row");
+    const start = new Date(session.start);
+    row.append(
+      node("p", dateFormat.format(start) + " · " + timeFormat.format(start) + " · " + session.duration + " min", "session-time"),
+      node("strong", session.title),
+      node("p", session.action + (session.topics.length ? " · " + session.topics.join(", ") : ""), "meta")
+    );
+    list.append(row);
+  }
+  if (unscheduled.length) {
+    const remaining = node("div", "", "row");
+    remaining.append(node("strong", "Time still needed"));
+    for (const item of unscheduled) remaining.append(node("p", item.title + " · " + item.remaining + " min", "meta"));
+    list.append(remaining);
+  }
+}
+function update() {
+  save();
+  renderCourseVisibility();
+  renderTasks();
+  renderTimeline();
+  renderCalendar();
+  renderStudyCalendar();
+}
+
+taskForm.onsubmit = async event => {
+  event.preventDefault();
+  const values = Object.fromEntries(new FormData(taskForm));
+  if (!values.title.trim()) {
+    byId("task-status").textContent = "Enter a title for the coursework.";
+    return;
+  }
+  try {
+    const file = taskForm.elements.namedItem('homeworkFile').files[0];
+    if(file) { values.fileText = await readHomeworkFile(file); values.fileName = file.name; }
+  } catch(error) { byId('task-status').textContent = error.message; return; }
+  delete values.homeworkFile;
+  addTask(values);
+  taskForm.reset();
+  byId("task-status").textContent = "Coursework added.";
+  update();
+};
+
+// Best-effort automatic analysis of PDF/DOCX attachments discovered in calendar events.
+// This works only when the remote host permits browser CORS access to the file.
+async function analyzeCalendarAttachments(items) {
+  const status = byId("attachment-status");
+  const candidates = items.filter(task => task.attachments?.some(a =>
+    /\.pdf(?:[?#]|$)|\.docx(?:[?#]|$)|\/files\/\d+(?:[/?#]|$)/i.test(a.url)));
+  if (!candidates.length) {
+    status.textContent = "No linked PDF/DOCX attachments were found in the imported calendar events.";
+    return;
+  }
+  status.textContent = "Checking " + candidates.length + " assignments for linked homework documents…";
+  let read = 0, blocked = 0, checked = 0;
+  for (const task of candidates.slice(0, 40)) {
+    if (task.fileText?.trim()) continue;
+    const links = task.attachments.filter(a => /\.pdf(?:[?#]|$)|\.docx(?:[?#]|$)|\/files\/\d+(?:[/?#]|$)/i.test(a.url)).slice(0, 3);
+    let texts = [];
+    for (const link of links) {
+      checked++;
+      try {
+        const url = new URL(link.url);
+        if (url.protocol !== "https:" || url.username || url.password) continue;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        let response;
+        try { response = await fetch(url.href, {mode: "cors", credentials: "omit", redirect: "follow", signal: controller.signal}); }
+        finally { clearTimeout(timeout); }
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const size = Number(response.headers.get("content-length") || 0);
+        if (size > 10_000_000) throw new Error("File too large");
+        const type = (response.headers.get("content-type") || "").toLowerCase();
+        const finalUrl = new URL(response.url || url.href);
+        if (/text\/html/.test(type) || /\/login|\/saml|\/oauth/i.test(finalUrl.pathname)) throw new Error("Canvas login required");
+        if (!(/pdf|wordprocessingml|octet-stream/.test(type) || /\.(pdf|docx)$/i.test(finalUrl.pathname))) continue;
+        const text = (await extractLinkedText(response, finalUrl)).trim();
+        if (text) texts.push(text);
+      } catch { blocked++; }
+    }
+    if (texts.length) {
+      task.fileText = texts.join("\n\n").slice(0, 60000);
+      task.fileName = links.map(l => l.label).join(", ");
+      read++;
+      update();
+    }
+  }
+  status.textContent = read
+    ? "Analyzed documents for " + read + " assignment(s). Personalized time estimates and the timeline were updated." + (blocked ? " Some links were inaccessible." : "")
+    : "Found " + candidates.length + " assignment(s) with document links, but could not read their contents. Canvas login/CORS restrictions may prevent automatic PDF access; the calendar feed itself does not contain the PDF.";
+  if (candidates.length > 40) status.textContent += " Only the first 40 were checked.";
+}
+
+async function importCalendarText(contents) {
+  const items = parseCalendar(contents);
+  const before = state.tasks.length;
+  for (const item of items) {
+    const existing = state.tasks.find(task => task.source === item.source);
+    if (existing) {
+      existing.attachments = item.attachments;
+      if (item.assignmentUrl) existing.assignmentUrl = item.assignmentUrl;
+      existing.due = item.due;
+      existing.cutoff = item.cutoff;
+      existing.details = item.details;
+    } else addTask(item);
+  }
+  const added = state.tasks.length - before;
+  byId("import-status").textContent = items.length
+    ? "Added " + added + " new events and refreshed " + (items.length - added) + " existing events."
+    : "This calendar has no importable events.";
+  update();
+  await analyzeCalendarAttachments(items.map(item => state.tasks.find(task => task.source === item.source)).filter(Boolean));
+}
+
+byId("calendar").onchange = async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+  try { await importCalendarText(await file.text()); }
+  catch (error) { byId("import-status").textContent = error.message; }
+  finally { event.target.value = ""; }
+};
+
+byId("calendar-url-form").onsubmit = async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector("button");
+  const status = byId("import-status");
+  let url;
+  try {
+    url = new URL(form.elements.url.value.trim());
+    if (url.protocol !== "https:" || url.hostname !== "canvas.tamu.edu" ||
+        !/^\/feeds\/calendars\/[^/]+\.ics$/.test(url.pathname) || url.username || url.password) {
+      throw new Error("Paste a valid Texas A&M Canvas calendar subscription URL ending in .ics.");
+    }
+    button.disabled = true;
+    status.textContent = "Retrieving calendar…";
+    const response = await fetch(url.href, {mode: "cors", credentials: "omit", redirect: "follow"});
+    if (!response.ok) throw new Error("Canvas returned HTTP " + response.status + ".");
+    const content = await response.text();
+    if (content.length > 10_000_000) throw new Error("Calendar feed is too large.");
+    await importCalendarText(content);
+  } catch (error) {
+    status.textContent = error instanceof TypeError
+      ? "Canvas blocked direct browser access (likely CORS or network restrictions). To import from a pasted URL reliably, Courseplan needs a small server-side calendar fetcher. You can still import an .ics file below."
+      : error.message;
+  } finally { button.disabled = false; }
+};
+
+["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((name, index) => {
+  const label = node("label", "");
+  const input = document.createElement("input");
+  Object.assign(input, {type: "checkbox", name: "days", value: String(index), checked: state.availability.days.includes(index)});
+  label.append(input, name);
+  byId("days").append(label);
+});
+availabilityForm.elements.start.value = state.availability.start;
+availabilityForm.elements.minutes.value = state.availability.minutes;
+availabilityForm.onsubmit = event => {
+  event.preventDefault();
+  const values = new FormData(availabilityForm);
+  const days = values.getAll("days").map(Number);
+  if (!days.length) {
+    byId("schedule-status").textContent = "Choose at least one study day.";
+    return;
+  }
+  state.availability = {days, start: values.get("start"), minutes: Number(values.get("minutes"))};
+  update();
+  byId("schedule-status").textContent = "Timeline updated.";
+};
+
+const clearAllData = () => {
+  if (!window.confirm("Clear all coursework, imported materials, quizzes, and saved study availability? This cannot be undone.")) return;
+  state = {tasks: [], materials: [], paceMinutes: 120, availability: {days: [0, 1, 2, 3, 4, 6], start: "17:00", minutes: 90}};
+  visibleCourseKeys = null;
+  try {localStorage.removeItem("courseplan.visibleCourses");} catch {}
+  taskForm.reset();
+  byId("pace-form").reset();
+  materialsForm.reset();
+  byId("calendar-url-form").reset();
+  availabilityForm.elements.start.value = state.availability.start;
+  availabilityForm.elements.minutes.value = state.availability.minutes;
+  for (const input of byId("days").querySelectorAll('input[type="checkbox"]')) {
+    input.checked = state.availability.days.includes(Number(input.value));
+  }
+  for (const id of ["material-status", "schedule-status"]) byId(id).textContent = "";
+  update();
+  byId("import-status").textContent = "All saved Courseplan data cleared.";
+  byId("clear-all-status").textContent = "All saved Courseplan data cleared.";
+};
+
+byId("clear-all").onclick = clearAllData;
+byId("clear-all-visible").onclick = clearAllData;
+
+byId("demo").onclick = () => {
+  const dateAfter = offset => {
+    const day = new Date();
+    day.setDate(day.getDate() + offset);
+    return dateKey(day);
+  };
+  const example = [
+    {type: "assignment", title: "Derivatives problem set", due: dateAfter(4), details: "Practice derivatives and limits."},
+    {type: "exam", title: "Calculus midterm", due: dateAfter(8), details: "Review limits, derivatives, and continuity."}
+  ];
+  for (const task of example) {
+    const source = "example:" + task.title;
+    if (!state.tasks.some(item => item.source === source)) addTask({...task, topics: "", source});
+  }
+  update();
+};
+
+renderTasks();
+renderTimeline();
+
+const paceForm = byId("pace-form");
+paceForm.elements.hours.value = (Number(state.paceMinutes) || 120) / 60;
+paceForm.onsubmit = event => {
+  event.preventDefault();
+  const hours = Number(paceForm.elements.hours.value);
+  if (!Number.isFinite(hours) || hours < .25 || hours > 40) {
+    byId('pace-status').textContent = 'Enter a typical duration between 0.25 and 40 hours.';
+    return;
+  }
+  state.paceMinutes = Math.round(hours * 60);
+  update();
+  byId('pace-status').textContent = 'Personal pace saved. Estimates and timeline recalculated.';
+};
+
+// Syllabus percentages are parsed locally, without sending the syllabus anywhere.
+const gradeForm = byId("grade-form");
+const gradeFields = byId("grade-weights");
+const categoryAliases = {
+  homework: /\b(homework|assignments?|problem sets?)\b/i,
+  quiz: /\b(quizzes|quiz)\b/i,
+  exam: /\b(exams?|tests?|midterms?|final exams?)\b/i,
+  discussion: /\b(discussions?|forums?)\b/i,
+  lab: /\b(labs?|laboratory|postlabs?|prelabs?)\b/i,
+  project: /\b(projects?|presentations?|papers?|essays?)\b/i,
+  participation: /\b(participation|attendance)\b/i,
+  other: /\b(other|miscellaneous)\b/i
+};
+function showGradeFields(values = {}) {
+  gradeFields.replaceChildren();
+  const labels = {...gradeCategories, ...(state.gradeLabels || {})};
+  for (const [key, label] of Object.entries(labels)) {
+    // Display custom categories only for the selected course.
+    if (key.startsWith("custom_") && !(key in values)) continue;
+    const wrapper = node("div", "", "grade-weight-row");
+    const name = node("label", label + " (%)");
+    const input = document.createElement("input");
+    Object.assign(input, {type:"number", min:"0", max:"100", step:"0.01", placeholder:"Not specified", value: values[key] ?? ""});
+    input.dataset.category = key;
+    input.oninput = gradeTotal;
+    name.append(input);
+    const remove = node("button", "Remove", "secondary danger");
+    remove.type = "button";
+    remove.setAttribute("aria-label", "Remove " + label + " grading category");
+    remove.onclick = () => {wrapper.remove(); gradeTotal();};
+    wrapper.append(name, remove);
+    gradeFields.append(wrapper);
+  }
+  gradeTotal();
+}
+byId("add-grade-category").onclick = () => {
+  const nameInput = byId("new-grade-name");
+  const name = nameInput.value.trim();
+  if (!name || !gradeForm.elements.course.value) {
+    byId("grade-status").textContent = "Choose a course and enter a category name."; return;
+  }
+  const key = "custom_" + name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+  if (key === "custom_" || Object.keys(gradeCategories).includes(key) || [...gradeFields.querySelectorAll("input[data-category]")].some(i => i.dataset.category === key)) {
+    byId("grade-status").textContent = "This category already exists or its name is invalid."; return;
+  }
+  state.gradeLabels ||= {};
+  state.gradeLabels[key] = name;
+  const current = Object.fromEntries([...gradeFields.querySelectorAll("input[data-category]")].map(i => [i.dataset.category, i.value]));
+  showGradeFields({...current, [key]: ""});
+  nameInput.value = "";
+  byId("grade-status").textContent = "Category added. Enter its weight and click Save grading weights.";
+};
+function gradeTotal() {
+  const values = [...gradeFields.querySelectorAll("input")].filter(x => x.value !== "");
+  const total = values.reduce((sum, x) => sum + Number(x.value), 0);
+  byId("grade-total").textContent = "Entered category weights: " + total.toFixed(2) + "%" + (values.length && Math.abs(total - 100) > .1 ? " — check whether any categories are missing or overlapping." : "");
+}
+function loadGradeCourse() {
+  showGradeFields((state.gradeWeights || {})[gradeForm.elements.course.value] || {});
+}
+gradeForm.elements.course.onchange = loadGradeCourse;
+byId("extract-weights").onclick = () => {
+  const text = gradeForm.elements.syllabus.value;
+  const found = {};
+  for (const line of text.split(/\r?\n/)) {
+    const percent = /(?:^|[^\d])(\d{1,3}(?:\.\d+)?)\s*%/.exec(line);
+    if (!percent) continue;
+    let category;
+    if (/\bfinal(?:\s+exam)?\b/i.test(line)) category = "final";
+    else if (/\btest\s*\d+|\bexam\s*\d+|\bmidterm\s*\d+/i.test(line)) {
+      const label = line.split(/[:\-–]/)[0].trim().slice(0,60);
+      category = "custom_" + label.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+      state.gradeLabels ||= {}; state.gradeLabels[category] = label;
+    } else category = Object.keys(categoryAliases).find(key => categoryAliases[key].test(line));
+    if (category && Number(percent[1]) <= 100) found[category] = Number(percent[1]);
+  }
+  if (!Object.keys(found).length) {
+    byId("grade-status").textContent = "No recognizable grading lines found. Try one category per line, e.g. Homework: 25%.";
+    return;
+  }
+  const current = Object.fromEntries([...gradeFields.querySelectorAll("input")].filter(x => x.value !== "").map(x => [x.dataset.category, Number(x.value)]));
+  showGradeFields({...current, ...found});
+  byId("grade-status").textContent = "Extracted " + Object.keys(found).length + " categories. Review and save the percentages.";
+};
+gradeForm.onsubmit = event => {
+  event.preventDefault();
+  const course = gradeForm.elements.course.value;
+  if (!course) { byId("grade-status").textContent = "Add or import coursework with a course name first."; return; }
+  const values = {};
+  for (const input of gradeFields.querySelectorAll("input")) {
+    if (input.value === "") continue;
+    const n = Number(input.value);
+    if (!Number.isFinite(n) || n < 0 || n > 100) { byId("grade-status").textContent = "Weights must be between 0 and 100%."; return; }
+    values[input.dataset.category] = n;
+  }
+  state.gradeWeights ||= {};
+  state.gradeWeights[course] = values;
+  fillGradeCategoryOptions(taskForm.elements.gradeCategory, course);
+  update();
+  byId("grade-status").textContent = "Saved grading weights for " + course + ".";
+};
+showGradeFields();
+
+// Settings panel is collapsible on both desktop and mobile.
+const sidebarButton = byId("toggle-sidebar");
+sidebarButton.onclick = () => {
+  const collapsed = byId("workspace").classList.toggle("sidebar-collapsed");
+  sidebarButton.setAttribute("aria-expanded", String(!collapsed));
+  sidebarButton.textContent = collapsed ? "☰ Show settings" : "☰ Hide settings";
+  try {localStorage.setItem("courseplan.sidebarCollapsed", String(collapsed));} catch {}
+};
+try {if (localStorage.getItem("courseplan.sidebarCollapsed") === "true") sidebarButton.click();} catch {}
+
+taskForm.elements.course.addEventListener("input", () => fillGradeCategoryOptions(taskForm.elements.gradeCategory, taskForm.elements.course.value));
+taskForm.elements.gradeCategory.addEventListener("focus", () => {
+  const course = taskForm.elements.course?.value || "";
+  fillGradeCategoryOptions(taskForm.elements.gradeCategory, course);
+});
+
+// Calendar is driven by the same coursework state as the assignment list.
+const workspaceTabButtons = [byId("tab-coursework"), byId("tab-calendar")];
+function activateWorkspaceTab(name, focus = false) {
+  const calendarSelected = name === "calendar";
+  byId("coursework-panel").hidden = calendarSelected;
+  byId("calendar-panel").hidden = !calendarSelected;
+  byId("tab-coursework").classList.toggle("active", !calendarSelected);
+  byId("tab-calendar").classList.toggle("active", calendarSelected);
+  byId("tab-coursework").setAttribute("aria-selected", String(!calendarSelected));
+  byId("tab-calendar").setAttribute("aria-selected", String(calendarSelected));
+  byId("tab-coursework").tabIndex = calendarSelected ? -1 : 0;
+  byId("tab-calendar").tabIndex = calendarSelected ? 0 : -1;
+  try { localStorage.setItem("courseplan.workspaceTab", calendarSelected ? "calendar" : "coursework"); } catch {}
+  if (focus) (calendarSelected ? byId("tab-calendar") : byId("tab-coursework")).focus();
+}
+for (const [index, button] of workspaceTabButtons.entries()) {
+  button.addEventListener("click", () => activateWorkspaceTab(index === 1 ? "calendar" : "coursework"));
+  button.addEventListener("keydown", event => {
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      activateWorkspaceTab(event.key === "ArrowRight" ? "calendar" : "coursework", true);
+    }
+  });
+}
+try { activateWorkspaceTab(localStorage.getItem("courseplan.workspaceTab") === "calendar" ? "calendar" : "coursework"); }
+catch { activateWorkspaceTab("coursework"); }
+
+let calendarYear = new Date().getFullYear();
+let calendarMonth = new Date().getMonth();
+function renderCalendar() {
+  const first = new Date(calendarYear, calendarMonth, 1);
+  byId("calendar-month").textContent = first.toLocaleDateString(undefined, {month:"long",year:"numeric"});
+  const grid = byId("calendar-grid");
+  grid.replaceChildren();
+  const start = first.getDay();
+  const days = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+  const today = dateKey(new Date());
+  const filtered = state.tasks.filter(isVisibleCourse);
+  for (let i=0; i<start; i++) {
+    const blank = node("div", "", "calendar-day calendar-empty");
+    blank.setAttribute("aria-hidden", "true");
+    grid.append(blank);
+  }
+  for (let day=1;day<=days;day++) {
+    const key = dateKey(new Date(calendarYear,calendarMonth,day));
+    const cell = node("div", "", "calendar-day" + (key === today ? " calendar-current" : ""));
+    cell.append(node("span", String(day), "calendar-date"));
+    const due = filtered.filter(task => task.due === key);
+    for (const task of due) {
+      const item = node("button", task.title, "calendar-event " + (task.type === "exam" ? "calendar-exam" : "calendar-assignment"));
+      item.type = "button";
+      item.title = task.title + " — " + (courseOf(task) || "No course") + " — " + key;
+      item.onclick = () => {
+        activateWorkspaceTab("coursework");
+        const rows = [...byId("tasks").querySelectorAll("article.row")];
+        const all = state.tasks.filter(isVisibleCourse).sort((a,b) => a.due.localeCompare(b.due));
+        const index = all.findIndex(t => t.id === task.id);
+        if (index >= 0 && rows[index]) {
+          rows[index].scrollIntoView({behavior:"smooth",block:"center"});
+          rows[index].classList.add("calendar-target");
+          setTimeout(() => rows[index]?.classList.remove("calendar-target"), 1800);
+        }
+      };
+      cell.append(item);
+    }
+    grid.append(cell);
+  }
+  const total = start+days;
+  for (let i=total;i<Math.ceil(total/7)*7;i++) {
+    const blank=node("div","","calendar-day calendar-empty");
+    blank.setAttribute("aria-hidden","true");grid.append(blank);
+  }
+}
+byId("calendar-prev").onclick = () => {calendarMonth--;if(calendarMonth<0){calendarMonth=11;calendarYear--;}renderCalendar();};
+byId("calendar-next").onclick = () => {calendarMonth++;if(calendarMonth>11){calendarMonth=0;calendarYear++;}renderCalendar();};
+byId("calendar-today").onclick = () => {const now=new Date();calendarYear=now.getFullYear();calendarMonth=now.getMonth();renderCalendar();};
+let studyCalendarYear = new Date().getFullYear();
+let studyCalendarMonth = new Date().getMonth();
+function renderStudyCalendar() {
+  const first = new Date(studyCalendarYear, studyCalendarMonth, 1);
+  byId("study-calendar-month").textContent = first.toLocaleDateString(undefined, {month:"long",year:"numeric"});
+  const grid = byId("study-calendar-grid");
+  grid.replaceChildren();
+  const start = first.getDay();
+  const days = new Date(studyCalendarYear, studyCalendarMonth + 1, 0).getDate();
+  const today = dateKey(new Date());
+  const {sessions} = currentTimelinePlan();
+  const monthSessions = sessions.filter(item => { const date = new Date(item.start); return date.getFullYear() === studyCalendarYear && date.getMonth() === studyCalendarMonth; });
+  byId("study-calendar-empty").hidden = monthSessions.length > 0;
+  for (let i=0; i<start; i++) {
+    const blank = node("div", "", "calendar-day calendar-empty");
+    blank.setAttribute("aria-hidden", "true");
+    grid.append(blank);
+  }
+  for (let day=1; day<=days; day++) {
+    const key = dateKey(new Date(studyCalendarYear, studyCalendarMonth, day));
+    const cell = node("div", "", "calendar-day" + (key === today ? " calendar-current" : ""));
+    cell.append(node("span", String(day), "calendar-date"));
+    for (const session of monthSessions.filter(item => dateKey(new Date(item.start)) === key)) {
+      const label = timeFormat.format(new Date(session.start)) + " · " + session.title + " · " + session.duration + " min";
+      const item = node("div", label, "calendar-event calendar-study");
+      item.title = label + (session.action ? " — " + session.action : "");
+      cell.append(item);
+    }
+    grid.append(cell);
+  }
+  const total = start + days;
+  for (let i=total; i<Math.ceil(total/7)*7; i++) {
+    const blank = node("div", "", "calendar-day calendar-empty");
+    blank.setAttribute("aria-hidden", "true");
+    grid.append(blank);
+  }
+}
+byId("study-calendar-prev").onclick = () => {studyCalendarMonth--;if(studyCalendarMonth<0){studyCalendarMonth=11;studyCalendarYear--;}renderStudyCalendar();};
+byId("study-calendar-next").onclick = () => {studyCalendarMonth++;if(studyCalendarMonth>11){studyCalendarMonth=0;studyCalendarYear++;}renderStudyCalendar();};
+byId("study-calendar-today").onclick = () => {const now=new Date();studyCalendarYear=now.getFullYear();studyCalendarMonth=now.getMonth();renderStudyCalendar();};
+renderCalendar();
+renderStudyCalendar();
+
+renderCourseVisibility();
+});</script></body>
+</html>
